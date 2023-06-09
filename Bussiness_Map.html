@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trang giao diện Map cho Danh Nghiệp</title>
+    <!-- Main Leaflet -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.3/dist/leaflet.css"
+        integrity="sha256-kLaT2GOSpHechhsozzB+flnD+zUyjE2LlfWPgU04xyI=" crossorigin="" />
+    <script src="include/mainMap/mainLeaflet.js"></script>
+    <!-- Link Search Inout Bussiness -->
+    <link rel="stylesheet" href="include/searchInputBussiness/searchInput.css" />
+    <script src="include/searchInputBussiness/searchInput.js"></script>
+    <!-- GeoCoder Search Input -->
+    <link rel="stylesheet" href="include/searchInput/controlSearch.css" />
+    <script src="include/searchInput/controlGeocoder.js"></script>
+    <!-- Icon -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+        integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <!-- Ajax -->
+    <script src="include/ajax/ajax.js"></script>
+    <!-- Base Layers -->
+    <link rel="stylesheet" href="include/layerBase/L.switchBasemap.css" />
+    <script src="include/layerBase/L.switchBasemap.js"></script>
+    <!-- Link Print -->
+    <script src="include/printMap/leaflet.browser.print.min.js"></script>
+    <!-- Routing Machine -->
+    <link rel="stylesheet" href="include/routing/routingmachine.css">
+    <script src="include/routing/routingMachine.js"></script>
+    <!-- Current Location user -->
+    <link rel="stylesheet" href="include/currentLocation/curentLocation.css">
+    <script src="include/currentLocation/curentLocation.js"></script>
+    <!-- Coordinates -->
+    <link rel="stylesheet" href="include/coordinates/Leaflet.Coordinates-0.1.5.css">
+    <link rel="stylesheet" href="include/coordinates/Leaflet.Coordinates-0.1.5.ie.css">
+    <script src="include/coordinates/Leaflet.Coordinates-0.1.5.min.js"></script>
+    <script src="include/coordinates/Leaflet.Coordinates-0.1.5.src.js"></script>
+</head>
+
+<body>
+    <div class="css-map-bussiness" id="map"></div>
+    <div class="fullScreen-div" id="fullScreenView_click" onclick=fullScreenView()><i class="fa-solid fa-expand"></i>
+    </div>
+    <button id="btn-print" class="css-btn-print">In bản đồ</button>
+</body>
+<!-- Home Make Javascript here -->
+<link rel="stylesheet" href="include/homeMake/Bussiness.css">
+<script src="include/homeMake/Bussiness.js"></script>
+
+</html>

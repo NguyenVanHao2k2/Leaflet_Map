@@ -1,0 +1,28 @@
+body {
+    padding: 0;
+    margin: 0;
+}
+
+#map {
+    height: 100vh;
+    width: 100%;
+    position: relative;
+}
+
+.fullScreen-div {
+    position: absolute;
+    top: 128px;
+    z-index: 1000;
+    left: 52px;
+    background: #fff;
+    padding: 7px;
+    border: 1px solid;
+}
+
+button#btn-print {
+    position: absolute;
+    top: 170px;
+    z-index: 1000;
+    left: 13px;
+    padding: 5px;
+}

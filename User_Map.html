@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trang giao diện MAP cho người dùng</title>
+    <!-- Css -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.3/dist/leaflet.css" integrity="sha256-kLaT2GOSpHechhsozzB+flnD+zUyjE2LlfWPgU04xyI=" crossorigin="" />
+    <!-- JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.3/leaflet.js"
+    integrity="sha512-Dqm3h1Y4qiHUjbhxTuBGQsza0Tfppn53SHlu/uj1f+RT+xfShfe7r6czRf5r2NmllO2aKx+tYJgoxboOkn1Scg=="
+    crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+    <!-- Icon -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw=="
+    crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+    <!-- Search Geocoder -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.css" />
+    <script src="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.js"></script>
+
+    <!-- Script and CSS when we search it move we to any destination -->
+    <!-- Routing Machine -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.3/leaflet.css"
+    integrity="sha512-mD70nAW2ThLsWH0zif8JPbfraZ8hbCtjQ+5RU1m4+ztZq6/MymyZeB55pWsi4YAX+73yvcaJyk61mzfYMvtm9w=="
+    crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.3/leaflet.js"
+    integrity="sha512-Dqm3h1Y4qiHUjbhxTuBGQsza0Tfppn53SHlu/uj1f+RT+xfShfe7r6czRf5r2NmllO2aKx+tYJgoxboOkn1Scg=="
+    crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <link rel="stylesheet" href="include/routing/routingmachine.css">
+    <script src="include/routing/routingMachine.js"></script>
+
+    <!-- JS Control GeoCoder Search Button in LeafLet -->
+    <!-- <script src="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.js"></script> -->
+    <script src="include/searchInput/controlGeocoder.js"></script>
+
+    <!-- Add convert layer GEOJSON in Laeflet -->
+    <script src="include/MarkerDrawLight/light_geojson.js"></script>
+    <script src="include/MarkerDrawLight/draw_geojson.js"></script>
+    <script src="include/MarkerDrawLight/marrker_.geojson.js"></script>
+    
+    <!-- Viet Nam State -->
+    <script src="include/AreaVietNam/VNstate.js"></script>
+
+    <!-- Coordinates -->
+    <link rel="stylesheet" href="include/coordinates/Leaflet.Coordinates-0.1.5.css">
+    <link rel="stylesheet" href="include/coordinates/Leaflet.Coordinates-0.1.5.ie.css">
+    <script src="include/coordinates/Leaflet.Coordinates-0.1.5.min.js"></script>
+    <script src="include/coordinates/Leaflet.Coordinates-0.1.5.src.js"></script>
+
+    <!-- Link Get Current Location of User -->
+    <!-- <link rel="stylesheet"
+        href="https://cdn.jsdelivr.net/npm/leaflet.locatecontrol@v0.79.0/dist/L.Control.Locate.min.css" />
+    <script src="https://cdn.jsdelivr.net/npm/leaflet.locatecontrol@v0.79.0/dist/L.Control.Locate.min.js"
+        charset="utf-8"></script> -->
+    
+    <link rel="stylesheet" href="include/currentLocation/curentLocation.css">
+    <script src="include/currentLocation/curentLocation.js"></script>
+
+    <!-- Script Print Map -->
+    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.4/jquery.min.js"
+    integrity="sha512-pumBsjNRGGqkPzKHndZMaAG+bir374sORyzM3uulLV14lN5LyykqNk8eEeUlUkB3U0M4FApyaHraT65ihJhDpQ=="
+    crossorigin="anonymous" referrerpolicy="no-referrer"></script> -->
+    <script src="include/ajax/ajax.js"></script>
+
+    <!-- Link Print -->
+    <script src="include/printMap/leaflet.browser.print.min.js"></script>
+
+</head>
+<style>
+    body {
+        margin: 0;
+        padding: 0;
+    }
+    #map{
+       height: 100vh;
+       width: 100%;
+       position: absolute;
+    }
+
+.leaflet-right .leaflet-control {
+    padding: 8px;
+    max-width: 327px;
+}
+
+.leaflet-routing-geocoders input {
+    width: 98%;
+    line-height: 1.67;
+    border: 1px solid #ccc;
+    padding: 4px;
+}
+.leaflet-routing-remove-waypoint {
+    background-color: transparent;
+    display: inline-block;
+    vertical-align: middle;
+    cursor: pointer;
+    position: absolute;
+    top: 22px;
+    right: 2px;
+}
+
+    .leaflet-right .leaflet-control {
+        padding: 8px;
+    }
+
+    input.inputX {
+        padding: 5px;
+    }
+
+    input.inputY {
+        padding: 5px;
+    }
+
+    .css-btn-print {
+        position: absolute;
+        z-index: 1000;
+        top: 172px;
+        left: 11px;
+        padding: 7px;
+        color: blue;
+    }
+
+    .fullScreen-div {
+        position: absolute;
+        z-index: 1000;
+        top: 217px;
+        left: 13px;
+        background-color: #fff;
+        padding: 7px;
+}
+
+</style>
+<body>
+    <div id="map" class="info"></div>
+    <div class="fullScreen-div" id="fullScreenView_click" onclick=fullScreenView()><i class="fa-solid fa-expand"></i></div>
+    <button id="btn-print" class="css-btn-print">In bản đồ</button>
+</body>
+<script>
+/*
+ Hiển thị bản đồ dựa vào thuộc tính ID. Sử dụng hàm built-in setView và gán hai giá trị mà we muốn. 
+ Để lấy tọa độ hiện tại we use https://geojson.io/
+*/
+var map = L.map('map').setView([10.030981011715681, 105.78233478763508], 10);
+    // var map = L.map('map', {
+    //     center: [10.030981011715681, 105.78233478763508],
+    //     zoom: 10,
+    //     // zoomControl: false,
+    // });
+
+// Lấy tọa độ việt nằm bằng key word Latitude and Longitude of Viet nam
+// var map = L.map('map').setView([15.9031, 105.8067], 13);
+
+    // Display coordinates current
+    L.control.coordinates({
+        position: "bottomleft",
+        useDMS: true,
+        labelTemplateLat: "Vĩ độ {y}",
+        labelTemplateLng: "Kinh độ {x}",
+        userLatLngOrder: true
+    }).addTo(map);
+
+// Layout hiển thị bản đồ LeafLet 
+    var osm =  L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        maxZoom: 19,
+        attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+    }).addTo(map);
+    //-------------------------------------------------
+    L.geoJson(vnState);
+// Hiển thị vòng tròn
+    
+    // var circle = L.circle([10.030981011715681, 105.78233478763508], {
+    //     color: 'red',
+    //     fillColor: 'blue',
+    //     fillOpacity: 0.3,
+    //     radius: 500
+    // }).addTo(map);
+    
+
+    //-------------------------------------------------
+
+// Hiển thị ra một thông báo
+    //circle.bindPopup("Hello World").openPopup();
+
+    //------------------------------------------------- 
+
+// We có thể thiết lập vị trí hiển thị thông báo cho một cái Popup
+   /*
+   .setLatLng([10.110762363397924, 105.61923480951606])
+   .setContent("Đây là chổ ở của tôi")
+   .openOn(map);
+   var popup = L.popup()
+   */
+
+   //-------------------------------------------------
+
+// Hiển thị đánh dấu
+    // var marker = L.marker([10.030981011715681, 105.78233478763508]).addTo(map);
+    // marker.bindPopup("Hello World").openPopup();
+
+    /*-------------------------------------------------
+                  Data Option Layout
+    -------------------------------------------------*/
+
+// Thay đổi nền Map bằng https://leaflet-extras.github.io/leaflet-providers/preview/
+   var OpenTopoMap = L.tileLayer('https://{s}.tile.opentopomap.org/{z}/{x}/{y}.png', {
+        maxZoom: 17,
+        // attribution: 'Map data: &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, <a href="http://viewfinderpanoramas.org">SRTM</a> | Map style: &copy; <a href="https://opentopomap.org">OpenTopoMap</a> (<a href="https://creativecommons.org/licenses/by-sa/3.0/">CC-BY-SA</a>)'
+    });
+
+    // Địa hình
+    // googleTerrain = L.tileLayer('http://{s}.google.com/vt?lyrs=p&x={x}&y={y}&z={z}', {
+    //         maxZoom: 20,
+    //         subdomains: ['mt0', 'mt1', 'mt2', 'mt3']
+    //     }).addTo(map);
+
+    /*-------------------------------------------------
+                  Data Option Layout
+    -------------------------------------------------*/
+
+// Thêm Google vào trong Leaflet này https://stackoverflow.com/questions/33343881/leaflet-in-google-maps
+    googleStreets = L.tileLayer('http://{s}.google.com/vt?lyrs=m&x={x}&y={y}&z={z}', {
+        maxZoom: 20,
+        subdomains: ['mt0', 'mt1', 'mt2', 'mt3']
+    });
+
+     /*-------------------------------------------------
+                   Data Option Layout
+     -------------------------------------------------*/
+
+// Hiển thị chi tiết khi nhúng Google satellite vệ tinh
+    googleSat = L.tileLayer('http://{s}.google.com/vt?lyrs=s&x={x}&y={y}&z={z}', {
+        maxZoom: 20,
+        subdomains: ['mt0', 'mt1', 'mt2', 'mt3']
+    });
+
+     /*-------------------------------------------------
+                       Hiển thị dữ liệu GEOJSON
+        -------------------------------------------------*/
+
+    // Use GEOJSON with LeafLet
+    var lineData = L.geoJSON(lightJSON);
+    var pointData = L.geoJSON(markerJSON);
+    var drawData = L.geoJSON(drawJSON, {
+        onEachFeature: function (feature, layer) {
+            layer.bindPopup(feature.properties.name)
+        },
+        style: {
+            fillColor: "#000000",
+            fillColorOpacity: 0.2,
+            color: "red" // viền
+        }
+    });
+
+    /*-------------------------------------------------
+                 Hiển thị Map Choropleth 
+    -------------------------------------------------*/
+    // Truy cập vào menu leaflet và vào phần tutorial chọn Interactive Choropleth Map
+
+    // Thay đổi này Map Choropleth ở đây
+    function getColor(d) {
+        return 'blue';
+    } 
+
+    function style(feature) {
+            return {
+                fillColor: getColor(feature.properties.density),
+                weight: 2,
+                opacity: 1,
+                color: 'white',
+                dashArray: '3',
+                fillOpacity: 0.7
+            };
+        }
+    
+    var stateVN = L.geoJson(vnState, { style, style, onEachFeature, onEachFeature });
+
+    function highlightFeature(e) {
+            var layer = e.target;
+            layer.setStyle({
+                weight: 5,
+                color: '#666',
+                dashArray: '',
+                fillOpacity: 0.7
+            });
+            layer.bringToFront();
+            info.update(layer.feature.properties);
+        }
+    
+    function resetHighlight(e) {
+            geojson.resetStyle(e.target);
+            info.update();
+        }
+    
+    function zoomToFeature(e) {
+            map.fitBounds(e.target.getBounds());
+        }
+
+    var geojson = L.geoJson(vnState);
+
+    function onEachFeature(feature, layer) {
+            layer.on({
+                mouseover: highlightFeature,
+                mouseout: resetHighlight,
+                click: zoomToFeature
+            });
+        }
+
+    geojson = L.geoJson(vnState, {
+        style: style,
+        onEachFeature: onEachFeature
+    });
+
+     /*-------------------------------------------------
+                    Hiển thị GEOJSON và Option Layout
+     -------------------------------------------------*/
+
+// Cho user chọn hiển thị giao diện use layer control
+// Truy cập và menu LeafLet và vào phần DOC vô Layers lấy đoạn code
+// https://leafletjs.com/reference.html#control-layers
+    var baseLayers = {
+        "Bản đồ mặc định": osm,
+        "Vệ tinh": googleSat,
+        "Google Map": googleStreets,
+    };
+
+    var overlays = {
+        "Điểm": pointData,
+        "Đường thằng": lineData,
+        "Hình vẽ": drawData,
+        "Hiển thị lãnh thổ": stateVN,
+    };
+ 
+    L.control.layers(baseLayers, overlays).addTo(map);
+    
+    /*-------------------------------------------------
+             Thêm nút tìn kiếm 
+    -------------------------------------------------*/
+// Thêm một nút tìm kiếm trong LeafLet
+/*
+ Truy cập vào https://github.com/perliedman/leaflet-control-geocoder
+ - Sau đó lấy link css và Js bên dưới để vào thẻ head
+*/
+    L.Control.geocoder().addTo(map);
+    // Css hiển thị khi nhập tìm kiếm một điểm trong thẻ input
+    // var geocoder = L.Control.geocoder({
+    //         defaultMarkGeocode: false
+    //     })
+    //         .on('markgeocode', function (e) {
+    //             var bbox = e.geocode.bbox;
+    //             var poly = L.polygon([
+    //                 bbox.getSouthEast(),
+    //                 bbox.getNorthEast(),
+    //                 bbox.getNorthWest(),
+    //                 bbox.getSouthWest()
+    //             ]).addTo(map);
+    //             map.fitBounds(poly.getBounds());
+    //         })
+    //         .addTo(map);
+
+//-----------------------------------------------------------------
+
+// Routing
+    // Routing defaul
+    /*
+    - Chung ta co the set value mac dinh cho viec dan duong
+    */
+//    L.Routing.control({
+//         waypoints: [
+//             L.latLng(57.74, 11.94),
+//             L.latLng(57.6792, 11.949)
+//         ]
+//     }).addTo(map);
+
+    L.Routing.control({
+        geocoder: L.Control.Geocoder.nominatim()
+    }).addTo(map);
+
+//-----------------------------------------------------------------
+
+// Get Current Location
+L.control.locate().addTo(map);
+
+//-----------------------------------------------------------------
+
+// Print Map
+$('#btn-print').click(function(){
+    window.print();
+});
+
+    var browserControl = L.control.browserPrint({ printModes : 
+    [
+        L.BrowserPrint.Mode.Landscape(), L.BrowserPrint.Mode.Portrait()
+    ]
+        }).addTo(map);
+
+//-----------------------------------------------------------------
+
+// Full Screen
+var fullScreenView_click = document.getElementById('map');
+  function fullScreenView(){
+    fullScreenView_click.requestFullscreen();
+  }
+</script>       
+
+</html>
